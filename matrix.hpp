@@ -107,10 +107,13 @@ Matrix Matrix::operator*(const Matrix &rhs) const {
     return result;
 }
 
+// Gets value from specified index
 int Matrix::get_value(std::size_t i, std::size_t j) const { return data[i][j]; }
 
+// Gets size
 int Matrix::get_size() const { return data.size(); }
 
+// Adds the major elements of the matrix
 int Matrix::sum_diagonal_major() const { 
     int result = 0;
 
@@ -121,6 +124,7 @@ int Matrix::sum_diagonal_major() const {
     return result;
 }
 
+// Adds the minor elements of the matrix
 int Matrix::sum_diagonal_minor() const {
     int result = 0;
 
@@ -131,6 +135,7 @@ int Matrix::sum_diagonal_minor() const {
     return result;
 }
 
+// Swaps two rows
 void Matrix::swap_rows(std::size_t r1, std::size_t r2){
     if(r1 < size && r2 < size)
     {
@@ -140,6 +145,7 @@ void Matrix::swap_rows(std::size_t r1, std::size_t r2){
     }
 }
 
+// Swaps two cols
 void Matrix::swap_cols(std::size_t c1, std::size_t c2){
     std::vector<std::vector<int>> storedVector;
     storedVector.resize(size);
@@ -167,6 +173,7 @@ void Matrix::swap_cols(std::size_t c1, std::size_t c2){
         }
     }
 }
+// Prints matrix
 void Matrix::print_matrix() const{
     for (std::size_t i = 0; i < size; i++) {
         for (std::size_t j = 0; j < size; j++){

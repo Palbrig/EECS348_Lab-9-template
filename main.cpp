@@ -1,3 +1,13 @@
+/*
+Name: matrix_program.exce
+Description: Does basic matrix operations and displays them.
+Inputs: file specified by user
+Outputs: CMD matrices
+Collaborators: None
+Sources: Chat GPT for error correction
+Author: Parker Albright
+Creation: 4/10/25
+*/
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -16,6 +26,7 @@ void problem6(Matrix&, int, int);
 void problem7(Matrix&, int, int, int);
 
 int main(int argc, char *argv[]) {
+    // Chat GPT wrote the file opening
     // Opens and reads from file
     string filename;
     cout << "Enter filename: ";
