@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <vector>
 #include <iostream>
+#include <iomanip>
+
 
 // all of your function definitions should be in this file now
 
@@ -14,10 +16,17 @@ private:
 public:
     Matrix(std::size_t N);
     Matrix(std::vector<std::vector<int>> nums);
+    // Chat GPT offered the friend type here
+    friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
 
     Matrix operator+(const Matrix &rhs) const;
     Matrix operator*(const Matrix &rhs) const;
-    void set_value(std::size_t i, std::size_t j, int n);
+
+    template <typename T>
+    void set_value(std::size_t i, std::size_t j, T n){
+        data[i][j] = n; 
+    }
+
     int get_value(std::size_t i, std::size_t j) const;
     int get_size() const;
     int sum_diagonal_major() const;
@@ -58,12 +67,18 @@ Matrix::Matrix(std::vector<std::vector<int>> nums){
     
 }
 
+std::ostream& operator<<(std::ostream& os, const Matrix& m) {
+    os << "Matrix of type int: ";
+    return os;
+}
+
+
 Matrix Matrix::operator+(const Matrix &rhs) const {
     Matrix result(size);
 
     for (std::size_t i = 0; i < size; i++) {
         for (std::size_t j = 0; j < size; j++) { 
-            result.data[i][j] = data[i][j] + rhs.data[1][j];
+            result.data[i][j] = data[i][j] + rhs.data[i][j];
         }
     }
     return result;
@@ -76,14 +91,12 @@ Matrix Matrix::operator*(const Matrix &rhs) const {
         for (std::size_t j = 0; j < size; j++) {
             result.data[i][j] = 0;
             for (std::size_t k = 0; k < size; k++){
-                result.data[i][j] = data[i][k] * rhs.data[k][j];
+                result.data[i][j] += data[i][k] * rhs.data[k][j];
             }
         }
     }
     return result;
 }
-
-void Matrix::set_value(std::size_t i, std::size_t j, int n){ data[i][j] = n; }
 
 int Matrix::get_value(std::size_t i, std::size_t j) const { return data[i][j]; }
 
@@ -100,54 +113,57 @@ int Matrix::sum_diagonal_major() const {
 }
 
 int Matrix::sum_diagonal_minor() const {
-    int i = size - 1;
-    int j = 0;
     int result = 0;
 
-    for (std::size_t i = 0; i < size; i++){
-        result += data[i][j];
-        j - i;
+    for (std::size_t i = 0; i < size; ++i) {
+        result += data[i][size - 1 - i];
     }
 
     return result;
 }
 
 void Matrix::swap_rows(std::size_t r1, std::size_t r2){
-    std::vector<int> storedVector = data[r1];
-    data[r1] = data[r2];
-    data[r2] = storedVector;
+    if(r1 < size && r2 < size)
+    {
+        std::vector<int> storedVector = data[r1];
+        data[r1] = data[r2];
+        data[r2] = storedVector;
+    }
 }
 
 void Matrix::swap_cols(std::size_t c1, std::size_t c2){
     std::vector<std::vector<int>> storedVector;
     storedVector.resize(size);
 
-    for (size_t i = 0; i < size; i++)
+    if(c1 < size && c2 < size)
     {
-        storedVector[i].resize(size);
-    }
+        for (size_t i = 0; i < size; i++)
+        {
+            storedVector[i].resize(size);
+        }
 
-    for (size_t i = 0; i < size; i++)
-    {
-        storedVector[i][c1] = data[i][c1];
-    }
+        for (size_t i = 0; i < size; i++)
+        {
+            storedVector[i][c1] = data[i][c1];
+        }
 
-    for (size_t i = 0; i < size; i++)
-    {
-        data[i][c1] = data[i][c2];
-    }
+        for (size_t i = 0; i < size; i++)
+        {
+            data[i][c1] = data[i][c2];
+        }
 
-    for (size_t i = 0; i < size; i++)
-    {
-        data[i][c2] = storedVector[i][c1];
+        for (size_t i = 0; i < size; i++)
+        {
+            data[i][c2] = storedVector[i][c1];
+        }
     }
 }
 void Matrix::print_matrix() const{
     for (std::size_t i = 0; i < size; i++) {
         for (std::size_t j = 0; j < size; j++){
-            std::cout << data[i][j];
+            std::cout << std::setw(5) << data[i][j];
         }
-        
+        std::cout << '\n';
     }
 }
 
