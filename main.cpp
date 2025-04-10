@@ -5,6 +5,7 @@
 #include "matrix.hpp"
 using namespace std;
 
+// Function declarations
 void pauseCommandLine();
 void problem1(Matrix, Matrix);
 void problem2(Matrix, Matrix);
@@ -15,9 +16,10 @@ void problem6(Matrix&, int, int);
 void problem7(Matrix&, int, int, int);
 
 int main(int argc, char *argv[]) {
-    string filename = "test.txt";
-    // cout << "Enter filename: ";
-    // cin >> filename;
+    // Opens and reads from file
+    string filename;
+    cout << "Enter filename: ";
+    cin >> filename;
 
     ifstream infile(filename);
     if (!infile.is_open()) {
@@ -25,6 +27,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Only allows matrices that are numbers
     size_t N;
     int type_flag;
 
@@ -35,6 +38,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Reads data for matrices
     vector<vector<int>> vec1(N, vector<int>(N));
     vector<vector<int>> vec2(N, vector<int>(N));
 
@@ -53,12 +57,13 @@ int main(int argc, char *argv[]) {
             infile >> vec2[i][j];
         }
     }
-
     infile.close();
 
+    // Constructs matrices
     Matrix matrix1(vec1);
     Matrix matrix2(vec2);
 
+    // Runs through problems
     problem1(matrix1, matrix2);
     problem2(matrix1, matrix2);
     problem3(matrix1, matrix2);
@@ -68,15 +73,18 @@ int main(int argc, char *argv[]) {
     problem6(matrix1, 1, 2);
     problem7(matrix1, 0, 0, 100);
 
+    // Keeps CMD from closing
     pauseCommandLine();
 }
 
+// Keeps CMD from closing
 void pauseCommandLine(){
     cout << "\nPress Enter to exit...";
     cin.ignore();
     cin.get();
 }
 
+// Prints matrices
 void problem1(Matrix m1, Matrix m2){
     cout << "\nMatrix 1:\n";
     m1.print_matrix();
@@ -84,33 +92,39 @@ void problem1(Matrix m1, Matrix m2){
     m2.print_matrix();
 }
 
+// Adds matrices and prints
 void problem2(Matrix m1, Matrix m2){
     cout << "\nAdding Matrix 1 to Matrix 2:\n";
     (m1 + m2).print_matrix();
 }
 
+// Multiplies matrices and prints
 void problem3(Matrix m1, Matrix m2){
     cout << "\nMultiplying Matrix 1 to Matrix 2:\n";
     (m1 * m2).print_matrix();
 }
 
+// Adds diagonal elements and prints
 void problem4(Matrix m1){
     cout << "\nAdding Major Diagonal Elements: " << m1.sum_diagonal_major() << "\n";
     cout << "\nAdding Minor Diagonal Elements: " << m1.sum_diagonal_minor() << "\n";
 }
 
+// Swaps specified row
 void problem5(Matrix& m1, int i, int j){
     cout << "Swapping row " << i << " with row " << j << ":\n";
     m1.swap_rows(i, j);
     m1.print_matrix();
 }
 
+// Swaps specified col
 void problem6(Matrix& m1, int i, int j){
     cout << "Swapping col " << i << " with col " << j << ":\n";
     m1.swap_cols(i, j);
     m1.print_matrix();
 }
 
+// Sets value
 void problem7(Matrix& m1, int row, int col, int val){
     cout << "Changing row " << row << " col " 
          << col << " that is value " << m1.get_value(row, col) << 

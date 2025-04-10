@@ -1,3 +1,9 @@
+/*
+Author: Parker Albright
+Description: matrix.hpp defines a class matrix and includes functionality
+to edit and change the matrix.
+*/
+
 #ifndef __MATRIX_HPP__
 #define __MATRIX_HPP__
 
@@ -8,7 +14,7 @@
 
 
 // all of your function definitions should be in this file now
-
+// Defines place holders for all matrix functionality.
 class Matrix {
 private: 
     std::size_t size;
@@ -22,6 +28,7 @@ public:
     Matrix operator+(const Matrix &rhs) const;
     Matrix operator*(const Matrix &rhs) const;
 
+    // Defined here for template finicky
     template <typename T>
     void set_value(std::size_t i, std::size_t j, T n){
         data[i][j] = n; 
@@ -36,6 +43,7 @@ public:
     void print_matrix() const;
 };
 
+// Matrix constructors
 Matrix::Matrix(std::size_t N){
     size = N;
     data.resize(size);
@@ -50,7 +58,6 @@ Matrix::Matrix(std::size_t N){
     }
     
 }
-
 Matrix::Matrix(std::vector<std::vector<int>> nums){
     size = nums.size();
     data.resize(size);
@@ -67,12 +74,13 @@ Matrix::Matrix(std::vector<std::vector<int>> nums){
     
 }
 
+// Replaces << operator to output below when called in cout
 std::ostream& operator<<(std::ostream& os, const Matrix& m) {
     os << "Matrix of type int: ";
     return os;
 }
 
-
+// Replaces + operator to add matrices together
 Matrix Matrix::operator+(const Matrix &rhs) const {
     Matrix result(size);
 
@@ -84,6 +92,7 @@ Matrix Matrix::operator+(const Matrix &rhs) const {
     return result;
 }
 
+// Replaces * operator to multiply matrices together
 Matrix Matrix::operator*(const Matrix &rhs) const {
     Matrix result(size);
 
